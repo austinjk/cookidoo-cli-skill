@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+COOKIDOO_SKILL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+COOKIDOO_PROJECT_DIR="${COOKIDOO_PROJECT_ROOT:-$(cd "$COOKIDOO_SKILL_DIR/../.." && pwd)}"
+
+COOKIDOO_INSTALLED_BIN="$(command -v cookidoo || true)"
+if [[ -z "$COOKIDOO_INSTALLED_BIN" && -x "${UV_TOOL_BIN_DIR:-$HOME/.local/bin}/cookidoo" ]]; then
+  COOKIDOO_INSTALLED_BIN="${UV_TOOL_BIN_DIR:-$HOME/.local/bin}/cookidoo"
+fi
+if [[ -n "$COOKIDOO_INSTALLED_BIN" ]]; then
+  COOKIDOO_INSTALLED_DIR="$(cd "$(dirname "$COOKIDOO_INSTALLED_BIN")" && pwd)"
+  COOKIDOO_INSTALLED_PATH="$COOKIDOO_INSTALLED_DIR/$(basename "$COOKIDOO_INSTALLED_BIN")"
+  COOKIDOO_SELF_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
+  if [[ "$COOKIDOO_INSTALLED_PATH" != "$COOKIDOO_SELF_PATH" ]]; then
+    exec "$COOKIDOO_INSTALLED_PATH" "$@"
+  fi
+fi
+
+if [[ -f "$COOKIDOO_PROJECT_DIR/pyproject.toml" ]] && command -v uv >/dev/null 2>&1; then
+  export PYTHONPATH="$COOKIDOO_PROJECT_DIR/src${PYTHONPATH:+:$PYTHONPATH}"
+  exec uv run --project "$COOKIDOO_PROJECT_DIR" python -m cookidoo_cli.cli "$@"
+fi
+
+if [[ -f "$COOKIDOO_PROJECT_DIR/pyproject.toml" && -x "$COOKIDOO_PROJECT_DIR/.venv/bin/python" ]]; then
+  export PYTHONPATH="$COOKIDOO_PROJECT_DIR/src${PYTHONPATH:+:$PYTHONPATH}"
+  exec "$COOKIDOO_PROJECT_DIR/.venv/bin/python" -m cookidoo_cli.cli "$@"
+fi
+
+echo '{"ok":false,"error":{"type":"runtime_error","message":"Cookidoo CLI is not installed; run the repository install.sh"}}' >&2
+exit 127

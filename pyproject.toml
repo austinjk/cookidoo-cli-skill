@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cookidoo-cli"
+version = "0.1.0"
+description = "Local JSON CLI for Cookidoo recipe discovery, meal planning, and TM7-aware custom recipes."
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+authors = [{ name = "Austin Kenny" }]
+keywords = ["cookidoo", "thermomix", "tm7", "agent-skill", "cli"]
+dependencies = [
+  "aiohttp>=3.11,<4",
+  "certifi>=2024.8.30",
+  "cookidoo-api @ git+https://github.com/miaucl/cookidoo-api.git@d7fd1faf94550d7051676f4a11ca77678d9624ac",
+  "PyYAML>=6.0.2,<7",
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest>=8.3,<9",
+  "pytest-asyncio>=0.25,<1",
+  "ruff>=0.12,<1",
+]
+
+[project.urls]
+Homepage = "https://github.com/austinjk/cookidoo-cli-skill"
+Repository = "https://github.com/austinjk/cookidoo-cli-skill"
+Issues = "https://github.com/austinjk/cookidoo-cli-skill/issues"
+
+[project.scripts]
+cookidoo = "cookidoo_cli.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q"

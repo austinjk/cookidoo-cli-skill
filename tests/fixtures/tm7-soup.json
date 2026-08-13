@@ -1,0 +1,45 @@
+{
+  "title": "Tomato soup",
+  "language": "en-US",
+  "tm_model": "TM7",
+  "servings": 4,
+  "ingredients": [
+    "100 g onion, halved",
+    "20 g olive oil",
+    "500 g tomatoes",
+    "300 g water"
+  ],
+  "steps": [
+    {
+      "text": "Place 100 g onion, halved in the mixing bowl."
+    },
+    {
+      "text": "5 sec/speed 5",
+      "time_seconds": 5,
+      "speed": 5,
+      "anchor": "5 sec/speed 5"
+    },
+    {"text": "Add 20 g olive oil."},
+    {
+      "text": "3 min/120°C/speed 1",
+      "time_seconds": 180,
+      "temperature_c": 120,
+      "speed": 1,
+      "anchor": "3 min/120°C/speed 1"
+    },
+    {"text": "Add 500 g tomatoes and 300 g water."},
+    {
+      "text": "15 min/100°C/speed 1",
+      "time_seconds": 900,
+      "temperature_c": 100,
+      "speed": 1,
+      "anchor": "15 min/100°C/speed 1"
+    },
+    {
+      "text": "Blend manually, increasing gradually only after checking the fill level and temperature."
+    }
+  ],
+  "prep_time_seconds": 600,
+  "total_time_seconds": 1800,
+  "notes": "Observe the machine fill limits and follow Thermomix hot-blending guidance."
+}

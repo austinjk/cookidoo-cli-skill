@@ -1,0 +1,4 @@
+interface:
+  display_name: "Manage Cookidoo"
+  short_description: "Search, plan, and create Cookidoo recipes"
+  default_prompt: "Use $manage-cookidoo to find TM7 recipes and manage my Cookidoo account safely."

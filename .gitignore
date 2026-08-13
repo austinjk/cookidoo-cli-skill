@@ -1,0 +1,16 @@
+.venv/
+.DS_Store
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.pyc
+*.egg-info/
+dist/
+build/
+assets/recipe-images/
+recipe*.json
+cookies*.json
+config*.yaml
+.env
