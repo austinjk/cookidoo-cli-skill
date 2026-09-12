@@ -55,6 +55,25 @@ For an ordinary structured TTS action, make the setting marker the entire step t
 
 Put `Place 200 g yogurt in the mixing bowl` in the preceding unstructured step. Cookidoo can render a structured action with surrounding prose as a checkbox instead of a TM7 Start button. The CLI normalizes a single action verb plus punctuation (`Mix 15 sec/speed 3.`), but rejects ingredient or explanatory prose around the marker.
 
+## Short-step writing example
+
+Apply the [TM7 screen-writing rules](../SKILL.md#writing-for-the-tm7-screen) to each `text` field. Separate steps, not line breaks inside one field, are the unit of navigation.
+
+Instead of one paragraph combining a doneness check, a comparison with ground beef, sauce reduction, and thinning, use short steps:
+
+```json
+[
+  {"text": "Check that the beef is fully cooked."},
+  {"text": "If the sauce is too thin, transfer it to a wide frying pan on the hob; otherwise skip the next step."},
+  {"text": "Simmer uncovered for 3–5 minutes, stirring, until the sauce coats a spoon."},
+  {"text": "If the sauce is too thick, stir in a splash of water."}
+]
+```
+
+This illustrates instruction splitting, not a tested cooking time. Preserve the recipe's verified times and doneness requirements. Omit the comparison with ground beef entirely; it does not help the cook perform an action. Do not move all discarded commentary into `notes` by default.
+
+Keep ingredient additions short too: split a large ingredient list across successive addition steps before the setting-only TTS step. Preserve every quantity and any required setup. Put equipment needed later in notes or its relevant step, not a long opening paragraph.
+
 ## Mode steps
 
 A named mode is not an ordinary TTS step. Prefer prose-only settings:

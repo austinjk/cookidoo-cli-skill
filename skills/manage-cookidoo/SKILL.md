@@ -64,7 +64,7 @@ The CLI's official-recipe detail response does not expose Guided Cooking prepara
 
 Read [references/tm7-capabilities.md](references/tm7-capabilities.md) and [references/owned-accessories.md](references/owned-accessories.md) before making any TM7 capability claim or generating/adapting a recipe. Then read [references/recipe-format.md](references/recipe-format.md) before writing recipe JSON.
 
-1. Draft a recipe JSON file in a temporary workspace location.
+1. Draft a recipe JSON file in a temporary workspace location. Review every step against the TM7 screen-writing rules below before validation.
 2. Validate it with `scripts/cookidoo recipe validate --file PATH`.
 3. Fix all errors. Explain warnings that materially affect guided cooking.
 4. Run `scripts/cookidoo recipe create --file PATH` to obtain a dry-run preview.
@@ -83,11 +83,21 @@ Assume Austin has the TM7 Cutter+, Blade Cover & Peeler, Thermomix Sensor, and T
 
 TM7 hardware reaches speeds above 5, but this CLI's ordinary TTS annotation does not. Keep higher-speed Blend/Turbo work as a manual-mode instruction. `varoma` is a Cookidoo wire token; on TM7, Varoma cooking is the Steam mode, not a temperature above 120°C. Do not emit Cookidoo `MODE` annotations.
 
-Make each structured TTS action its own step containing only the setting marker, such as `15 sec/speed 3`. Put ingredient additions and explanatory prose in the preceding unstructured step. The CLI may strip a single action verb such as `Mix` or `Chop`, but rejects other surrounding prose because Cookidoo can otherwise render a checkbox instead of a TM7 Start button.
+Make each structured TTS action its own step containing only the setting marker, such as `15 sec/speed 3`. Put ingredient additions and essential action instructions in preceding short, unstructured steps. The CLI may strip a single action verb such as `Mix` or `Chop`, but rejects other surrounding prose because Cookidoo can otherwise render a checkbox instead of a TM7 Start button.
 
 An official recipe's TM7 badge does not mean every operation happens in the mixing bowl. Preserve oven, hob, pan, resting, chilling, and accessory steps. A recipe tagged `TM7` by this CLI is user-created content, not Vorwerk-tested or TM7-certified.
 
 The TM7 score measures structural usability, not food safety or recipe quality. Never present it as certification.
+
+## Writing for the TM7 screen
+
+- Write each recipe step as a short, actionable screen. Use one action or tightly related action group per step, normally one short sentence; at most two short sentences. Aim for 10–25 words and split longer instructions into separate steps rather than packing a paragraph into one step.
+- Apply this to every step, including preparation, pan/oven work, accessory setup, manual modes, checks, and finishing. Split at changes of action, appliance, or cooking stage. Do not combine several stages with “meanwhile” in one long instruction; keep any necessary timing cue in the relevant short step.
+- Include only what the cook needs to do now: ingredients and quantities, equipment/setup, settings, duration, a useful endpoint, or a necessary safety instruction. Keep those details explicit when splitting steps; brevity must not remove them.
+- Omit commentary about expected eating experience, comparisons with other dishes, recipe-development rationale, provenance, validation, and API limitations from cooking steps. Do not write filler such as “Finely chopped stew beef will have a more substantial bite than ordinary ground beef.” Put genuinely useful background in `notes` or the chat; delete information that adds no practical value.
+- Keep an optional correction in its own short step, starting with its condition, such as “If the sauce is too thick, stir in a splash of water.” Do not combine doneness checks, texture commentary, reduction, and thinning in one instruction.
+- Keep ordinary structured TTS steps as the setting marker alone. For named modes, retain the short manual-selection instruction and exact settings; explain technical limitations outside the cooking steps.
+- Review for readability separately from CLI validation. A valid payload or high TM7 score does not establish that the text is readable on the appliance. See the [short-step example](references/recipe-format.md#short-step-writing-example).
 
 ## Created-recipe images
 
