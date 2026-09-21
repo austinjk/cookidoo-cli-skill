@@ -9,6 +9,14 @@ ACCESSORY_RE = re.compile(
     r"\b(varoma|butterfly|whisk|simmering basket|spatula|measuring cup|blade cover|peeler|cutter\+|cutter|spiralizer|sensor|nester)(?=\W|$)",
     re.IGNORECASE,
 )
+# TM7 Blend/Turbo modes accept fixed settings only; a speed ramp mid-step is impossible on the device.
+GRADUAL_SPEED_RE = re.compile(
+    r"\bgradually\b.{0,80}\bspeed\b"
+    r"|\bspeed\b.{0,80}\bgradually\b"
+    r"|\bramp\w*\s+(?:the\s+)?speed\b"
+    r"|\bincreas\w*\s+the\s+speed\s+(?:from|to)\b",
+    re.IGNORECASE,
+)
 SPECIAL_PROGRAM_RE = re.compile(
     r"\b(open cooking|browning|high[-_. ]temperature|steam(?:ing)?|dough|knead|turbo|blend|rice cooker|slow cook|sous[-_. ]vide|ferment(?:ation)?|warm[-_. ]up|reheat|sauce|kettle|egg boiler|sugar (?:stages|cooking)|pre[-_. ]clean)\b",
     re.IGNORECASE,
@@ -88,6 +96,10 @@ def validate_tm7_recipe(draft: RecipeDraft) -> dict[str, Any]:
             errors.append("Dough cannot start unless the bowl is below 60°C")
         if program == "turbo" and isinstance(step.temperature_c, (int, float)) and step.temperature_c > 60:
             errors.append("Turbo cannot start when the bowl is above 60°C")
+        if program in ("blend", "turbo") and GRADUAL_SPEED_RE.search(step.text):
+            warnings.append(
+                f"TM7 {program_name} mode does not support gradually changing the speed; rewrite the step with fixed settings"
+            )
         if step.structured:
             warnings.append(
                 f"Structured fields on the {program_name!r} step create ordinary TTS behavior; they do not activate that TM7 mode"

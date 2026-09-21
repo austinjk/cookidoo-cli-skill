@@ -213,3 +213,35 @@ def test_validator_distinguishes_turbo_and_dough_temperature_boundaries(program,
 
     boundary_errors = [error for error in result["errors"] if "above 60°C" in error or "below 60°C" in error]
     assert bool(boundary_errors) is expected_boundary_error
+
+
+def blend_recipe(step_text: str) -> RecipeDraft:
+    return RecipeDraft.from_dict(
+        {
+            "title": "Soup",
+            "ingredients": ["500 g cauliflower", "650 g water"],
+            "steps": [
+                {"text": "Place 500 g cauliflower in the mixing bowl."},
+                {"text": step_text, "program": "Blend"},
+            ],
+            "tm_model": "TM7",
+        }
+    )
+
+
+@pytest.mark.parametrize(
+    "step_text",
+    [
+        "Select Blend manually and blend for 1 minute, gradually increasing the speed from 5 to 10.",
+        "Select Blend manually and ramp the speed up gradually for 1 minute.",
+        "Blend for 1 minute, increasing the speed gradually to 10.",
+    ],
+)
+def test_validator_warns_on_gradual_speed_ramp_in_blend(step_text):
+    result = validate_tm7_recipe(blend_recipe(step_text))
+    assert any("gradually changing the speed" in warning for warning in result["warnings"])
+
+
+def test_validator_accepts_fixed_blend_settings():
+    result = validate_tm7_recipe(blend_recipe("Select Blend manually. Blend 1 min/speed 10."))
+    assert not any("gradually changing the speed" in warning for warning in result["warnings"])

@@ -76,12 +76,12 @@ Read [references/tm7-capabilities.md](references/tm7-capabilities.md) and [refer
 Classify every machine action before writing it:
 
 - Ordinary created-recipe TTS: encode only persistent time, allowed temperature, speed soft/0.5–5, and reverse.
-- Named TM7 mode: put the exact mode and settings in visible prose plus `program`; tell the cook to select it manually. Do not promise a Play button or encode a normal TTS step as though it activates the mode.
+- Named TM7 mode: put the exact mode and settings in visible prose plus `program`; tell the cook to select it manually. Mode settings are always fixed values; never describe gradually increasing or ramping the speed or temperature during a mode, because the TM7 does not support that. Do not promise a Play button or encode a normal TTS step as though it activates the mode.
 - Guided-only, accessory-dependent, or external operation: state the requirement explicitly. Never replace it with an invented TM7 setting.
 
 Assume Austin has the TM7 Cutter+, Blade Cover & Peeler, Thermomix Sensor, and TM7 Nester available. Do not use them by default. When one materially simplifies prep, improves consistency or doneness, protects delicate food, or enables useful individual portions, incorporate it into the visible recipe instructions with the exact accessory, function/cut, quantity or capacity, and any external appliance. Prefer the simpler non-accessory method when setup and cleanup outweigh the benefit.
 
-TM7 hardware reaches speeds above 5, but this CLI's ordinary TTS annotation does not. Keep higher-speed Blend/Turbo work as a manual-mode instruction. `varoma` is a Cookidoo wire token; on TM7, Varoma cooking is the Steam mode, not a temperature above 120°C. Do not emit Cookidoo `MODE` annotations.
+TM7 hardware reaches speeds above 5, but this CLI's ordinary TTS annotation does not. Keep higher-speed Blend/Turbo work as a manual-mode instruction with fixed time and speed settings, for example `Select Blend manually. Blend 1 min/speed 10.` with `program: Blend`. Never describe gradually increasing or ramping the speed inside Blend or Turbo: the TM7 cannot do that. `varoma` is a Cookidoo wire token; on TM7, Varoma cooking is the Steam mode, not a temperature above 120°C. Do not emit Cookidoo `MODE` annotations.
 
 Make each structured TTS action its own step containing only the setting marker, such as `15 sec/speed 3`. Put ingredient additions and essential action instructions in preceding short, unstructured steps. The CLI may strip a single action verb such as `Mix` or `Chop`, but rejects other surrounding prose because Cookidoo can otherwise render a checkbox instead of a TM7 Start button.
 
@@ -96,7 +96,7 @@ The TM7 score measures structural usability, not food safety or recipe quality. 
 - Include only what the cook needs to do now: ingredients and quantities, equipment/setup, settings, duration, a useful endpoint, or a necessary safety instruction. Keep those details explicit when splitting steps; brevity must not remove them.
 - Omit commentary about expected eating experience, comparisons with other dishes, recipe-development rationale, provenance, validation, and API limitations from cooking steps. Do not write filler such as “Finely chopped stew beef will have a more substantial bite than ordinary ground beef.” Put genuinely useful background in `notes` or the chat; delete information that adds no practical value.
 - Keep an optional correction in its own short step, starting with its condition, such as “If the sauce is too thick, stir in a splash of water.” Do not combine doneness checks, texture commentary, reduction, and thinning in one instruction.
-- Keep ordinary structured TTS steps as the setting marker alone. For named modes, retain the short manual-selection instruction and exact settings; explain technical limitations outside the cooking steps.
+- Keep ordinary structured TTS steps as the setting marker alone. For named modes, retain the short manual-selection instruction and exact fixed settings; explain technical limitations outside the cooking steps.
 - Review for readability separately from CLI validation. A valid payload or high TM7 score does not establish that the text is readable on the appliance. See the [short-step example](references/recipe-format.md#short-step-writing-example).
 
 ## Created-recipe images

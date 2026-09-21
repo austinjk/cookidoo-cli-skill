@@ -38,7 +38,7 @@
 - `text` is required visible prose.
 - `time_seconds` must be `1..5940`.
 - `temperature_c` must be `OFF`, `varoma`, or one of `37, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 98, 100, 105, 110, 115, 120`.
-- `speed` must be `soft` or `0.5..5` in half-step increments. This is the created-recipe TTS enum, not the TM7 hardware's complete manual speed range. Put speed 5.5–10, Blend, or Turbo instructions in visible prose and select the mode/settings manually.
+- `speed` must be `soft` or `0.5..5` in half-step increments. This is the created-recipe TTS enum, not the TM7 hardware's complete manual speed range. Put speed 5.5–10, Blend, or Turbo instructions in visible prose with fixed settings (for example `Blend 1 min/speed 10`) and select the mode/settings manually. Never describe gradually increasing or ramping the speed, because TM7 Blend/Turbo modes do not support speed ramps.
 - `reverse` emits counter-clockwise blade direction and requires another machine setting.
 - `anchor` may identify the exact visible setting substring. The CLI rejects the step if it cannot find the anchor or canonical marker; it never appends a setting silently.
 - `program` documents a manually selected TM7 mode. It does not create a structured mode annotation or activate that mode on the appliance.
@@ -84,6 +84,17 @@ A named mode is not an ordinary TTS step. Prefer prose-only settings:
   "program": "Slow Cook"
 }
 ```
+
+For Blend, state a fixed time and fixed speed:
+
+```json
+{
+  "text": "Select Blend manually. Blend 1 min/speed 10.",
+  "program": "Blend"
+}
+```
+
+Never describe a gradual speed increase inside a Blend or Turbo step, because the TM7 cannot ramp speed inside these modes.
 
 Do not add `time_seconds`, `temperature_c`, `speed`, or `reverse` merely to make a named-mode step look structured. Those fields launch ordinary TTS behavior and do not select Slow Cook, Browning, Open Cooking, Dough, Blend, Turbo, Sous-vide, Fermentation, Sauce, Kettle, Egg Boiler, or another mode. Use them on the same step only when the source explicitly provides a safe ordinary-manual fallback, and label that fallback unambiguously in the prose.
 

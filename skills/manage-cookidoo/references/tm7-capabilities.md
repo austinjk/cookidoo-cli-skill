@@ -37,8 +37,8 @@ A TTS annotation does not select a named mode. Do not encode mode-only behavior 
 | Browning | TM7 manual mode with Gentle and Intense levels; different from normal 120°C cooking. | Prose-only manual handoff. Never approximate Browning with 105/120°C TTS or claim an automatic mode step. |
 | Steam / Varoma | Varoma is Steam mode, not a temperature. Vorwerk says speed 5 maximum for steam. | Name Steam and required Varoma setup in prose. `varoma` TTS may preserve the token, but do not describe it as >120°C. |
 | Dough | Mode does not start when the bowl is at or above 60°C and does not heat. | Prose-only manual handoff; require cooling below 60°C. |
-| Turbo | Mode is disabled when the bowl is above 60°C. | Prose-only manual handoff; never encode Turbo as speed 10 TTS. |
-| Blend / high-speed mixing | TM7 can run above speed 5. | Prose-only manual handoff for speed 5.5–10 or Blend. Ordinary TTS stops at 5. |
+| Turbo | Mode is disabled when the bowl is above 60°C. | Prose-only manual handoff with fixed settings; never encode Turbo as speed 10 TTS. Never describe gradually increasing or ramping the speed: the TM7 cannot ramp speed in Turbo mode. |
+| Blend / high-speed mixing | TM7 can run above speed 5. | Prose-only manual handoff with fixed time and speed for speed 5.5–10 or Blend. Ordinary TTS stops at 5. Never describe gradually increasing or ramping the speed: TM7 Blend mode does not support speed ramps. |
 | Slow Cook | Controls long, gentle cooking as a mode. | Prose-only manual handoff. Do not replace it with repeated 99-minute ordinary steps. |
 | Sous-vide | Mode-specific low-temperature behavior; blade cover may be required by recipe/accessory configuration. | Preserve the exact source mode, temperature, time, fill, and accessory instructions in prose. Never snap 63°C to 65°C. |
 | Fermentation | Dedicated controlled mode. | Prose-only manual handoff; preserve vessel/accessory and source settings. |

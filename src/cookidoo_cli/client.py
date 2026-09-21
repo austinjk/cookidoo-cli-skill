@@ -67,7 +67,7 @@ class CookidooClient:
             raise CookidooError("Cookidoo dependencies are not installed") from exc
 
         cookie_store = CookieStore(config.cookie_file)
-        async with ClientSession(cookie_jar=CookieJar(unsafe=True), connector=cookidoo_connector()) as session:
+        async with ClientSession(cookie_jar=CookieJar(unsafe=True), connector=cookidoo_connector(), trust_env=True) as session:
             upstream_config = UpstreamConfig(
                 localization=CookidooLocalizationConfig(
                     country_code=config.country,
@@ -106,7 +106,7 @@ class CookidooClient:
             from cookidoo_api.types import CookidooLocalizationConfig
         except Exception as exc:  # pragma: no cover - import environment failure
             raise CookidooError("Cookidoo dependencies are not installed") from exc
-        session = ClientSession(cookie_jar=CookieJar(unsafe=True), connector=cookidoo_connector())
+        session = ClientSession(cookie_jar=CookieJar(unsafe=True), connector=cookidoo_connector(), trust_env=True)
         upstream_config = UpstreamConfig(
             localization=CookidooLocalizationConfig(
                 country_code=self.config.country,
