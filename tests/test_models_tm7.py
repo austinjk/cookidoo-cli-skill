@@ -74,8 +74,8 @@ def test_rejects_mode_fields():
         RecipeStep.from_value({"text": "Brown.", "mode": "BROWNING"})
 
 
-def test_program_is_visible_manual_metadata_only():
-    step = RecipeStep.from_value({"text": "Use Browning manually for 8 minutes.", "program": "Browning"})
+def test_program_is_visible_metadata_only():
+    step = RecipeStep.from_value({"text": "Browning 8 min.", "program": "Browning"})
     assert step.to_instruction()["annotations"] == []
 
 
@@ -121,7 +121,7 @@ def test_tm7_validator_detects_owned_accessories_in_visible_steps():
             "steps": [
                 "Fill the eight cavities of the TM7 Nester with 8 eggs.",
                 "Use the Thermomix Sensor to monitor the external oven step.",
-                "Fit the Cutter+ and select Thick Slice manually for 600 g potatoes.",
+                "Fit the Cutter+ and select Thick Slice for 600 g potatoes.",
             ],
         }
     )
@@ -138,7 +138,7 @@ def test_validator_rejects_open_cooking_with_blade_rotation():
             "ingredients": ["500 g tomatoes"],
             "steps": [
                 {
-                    "text": "Select Open Cooking manually.",
+                    "text": "Open Cooking.",
                     "program": "Open Cooking",
                     "time_seconds": 600,
                     "temperature_c": 100,
@@ -201,7 +201,7 @@ def test_validator_distinguishes_turbo_and_dough_temperature_boundaries(program,
             "ingredients": ["500 g mixture"],
             "steps": [
                 {
-                    "text": f"Select {program} manually.",
+                    "text": f"{program}.",
                     "program": program,
                     "temperature_c": temperature,
                 }
@@ -232,8 +232,8 @@ def blend_recipe(step_text: str) -> RecipeDraft:
 @pytest.mark.parametrize(
     "step_text",
     [
-        "Select Blend manually and blend for 1 minute, gradually increasing the speed from 5 to 10.",
-        "Select Blend manually and ramp the speed up gradually for 1 minute.",
+        "Blend for 1 minute, gradually increasing the speed from 5 to 10.",
+        "Ramp the speed up gradually in Blend for 1 minute.",
         "Blend for 1 minute, increasing the speed gradually to 10.",
     ],
 )
@@ -243,5 +243,5 @@ def test_validator_warns_on_gradual_speed_ramp_in_blend(step_text):
 
 
 def test_validator_accepts_fixed_blend_settings():
-    result = validate_tm7_recipe(blend_recipe("Select Blend manually. Blend 1 min/speed 10."))
+    result = validate_tm7_recipe(blend_recipe("Blend 1 min/speed 10."))
     assert not any("gradually changing the speed" in warning for warning in result["warnings"])

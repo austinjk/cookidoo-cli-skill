@@ -43,7 +43,7 @@
 - `anchor` may identify the exact visible setting substring. The CLI rejects the step if it cannot find the anchor or canonical marker; it never appends a setting silently.
 - `program` documents a manually selected TM7 mode. It does not create a structured mode annotation or activate that mode on the appliance.
 
-Do not provide `mode`, `power`, `pulse_count`, or raw `annotations`. Cookidoo currently strips special `MODE` annotations from recipes created through this path. Preserve named modes and all of their settings as visible instructions instead.
+Do not provide `mode`, `power`, `pulse_count`, or raw `annotations`. The `MODE` annotation format for created recipes is unverified, so do not rely on it: preserve named modes and all of their settings as visible instructions instead.
 
 Use one machine setting per step. Keep source quantities and safety-critical temperatures/times exact; never silently approximate an unsupported value.
 
@@ -80,7 +80,7 @@ A named mode is not an ordinary TTS step. Prefer prose-only settings:
 
 ```json
 {
-  "text": "Select Slow Cook manually and cook for 2 hours using the exact source settings.",
+  "text": "Slow Cook 2 hours using the exact source settings.",
   "program": "Slow Cook"
 }
 ```
@@ -89,7 +89,7 @@ For Blend, state a fixed time and fixed speed:
 
 ```json
 {
-  "text": "Select Blend manually. Blend 1 min/speed 10.",
+  "text": "Blend 1 min/speed 10.",
   "program": "Blend"
 }
 ```
@@ -106,7 +106,7 @@ Do not add an unverified `accessories`, `utensils`, or accessory-mode field to r
 
 ```json
 {
-  "text": "Fit the TM7 Cutter+ slicing assembly and select Thick Slice manually to slice 600 g potatoes into 4–5 mm rounds."
+  "text": "Fit the TM7 Cutter+ slicing assembly and select Thick Slice to slice 600 g potatoes into 4–5 mm rounds."
 }
 ```
 

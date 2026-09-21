@@ -7,7 +7,7 @@ Reviewed against official Vorwerk and Cookidoo material on 2026-08-03. TM7 softw
 1. **TM7 hardware/manual cooking**: what a person can select on the appliance.
 2. **Official Cookidoo Guided Cooking**: Vorwerk-tested recipes can invoke compatible modes and device-specific flows.
 3. **Cookidoo My Creations**: user-created recipes sync to TM7 but are not safety-checked or success-guaranteed.
-4. **This CLI's write path**: ordinary TTS fields persist; named `MODE` annotations are intentionally not emitted because they are not reliable through the unofficial API.
+4. **This CLI's write path**: ordinary TTS fields persist; named `MODE` annotations are not emitted, and whether the unofficial created-recipes API preserves them is unverified.
 
 Never use a hardware capability as proof that this CLI can encode it. Never use a `TM7` recipe tag as proof of testing or compatibility.
 

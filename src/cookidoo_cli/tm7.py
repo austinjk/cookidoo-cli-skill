@@ -131,8 +131,8 @@ def validate_tm7_recipe(draft: RecipeDraft) -> dict[str, Any]:
         },
         "limitations": [
             "The score measures structure and TM7 usability, not recipe quality or food safety.",
-            "Cookidoo created recipes reliably preserve TTS settings; special MODE annotations are intentionally not emitted.",
+            "Cookidoo created recipes reliably preserve TTS settings; special MODE annotations are not emitted, and their handling by the unofficial API is unverified.",
             "Ordinary created-recipe TTS supports soft/speed 0.5..5 even though TM7 hardware supports higher manual speeds.",
-            "The `program` field is visible documentation only; the cook must select the named mode manually.",
+            "The `program` field is visible documentation only; the cook selects the named mode directly on the TM7.",
         ],
     }
